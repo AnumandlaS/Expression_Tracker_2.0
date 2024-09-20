@@ -1,17 +1,9 @@
+Your frontend will remain the same except for the game.js. See you need to make in game.js file in the repo.
+Create a new backend folder which will consist of node_modules, uploads as usual and add db_connection file, schema file, server(basically index.js) file to it.
+So whenever you run the backend the command goes "node server.js"
+Commands:-
 mkdir backend
 cd backend
 npm init -y
 npm install express multer mongoose uuid
 
-Access to XMLHttpRequest at 'http://localhost:5000/uploads' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.Understand this error
-Game.js:188 Error uploading image: AxiosError {message: 'Network Error', name: 'AxiosError', code: 'ERR_NETWORK', config: {…}, request: XMLHttpRequest, …}
-overrideMethod @ console.js:288
-(anonymous) @ Game.js:188
-Promise.catch
-(anonymous) @ Game.js:188
-Show 1 more frame
-Show lessUnderstand this error
-Game.js:188 
-        
-        
-       POST http://localhost:5000/uploads net::ERR_FAILED 500 (Internal Server Error)
