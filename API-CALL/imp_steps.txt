@@ -1,0 +1,10 @@
+steps to create .env file:
+    npm install dotenv
+
+inside the .env file write :
+
+    MONGODB_URI=your_mongodb_connection_string
+    PORT=5000
+
+other installations requried: 
+    npm install axios
