@@ -28,17 +28,27 @@ app.get('/sessions', async (req, res) => {
 });
 
 // Get images for a specific session ID
-app.get('/sessions/:sessionId/images', async (req, res) => {
+// Endpoint to get media (images and screenshots) for a session
+app.get('/sessions/:sessionId/media', async (req, res) => {
     const { sessionId } = req.params;
-
     try {
-        const sessionImages = await Session.find({ sessionId });
-        res.status(200).json(sessionImages);
+      // Fetch the session by sessionId from MongoDB
+      const session = await Session.findOne({ sessionId: sessionId });
+      if (!session) {
+        return res.status(404).json({ error: 'Session not found' });
+      }
+  
+      // Return imagePaths and screenshotPaths
+      res.status(200).json({
+        imagePaths: session.imagePaths,
+        screenshotPaths: session.screenshotPaths
+      });
     } catch (error) {
-        console.error(`Error fetching images for session ${sessionId}:`, error);
-        res.status(500).json({ error: 'Failed to fetch images' });
+      console.error('Error fetching media:', error);
+      res.status(500).json({ error: 'Failed to fetch media' });
     }
-});
+  });
+  
 
 // Serve uploaded images
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -115,28 +125,29 @@ app.post('/screenshots', uploadScreenshot.single('screenshot'), async (req, res)
 
 async function saveAnalysisResult(filePath, sessionId, fileType) {
     try {
-        const update = {};
-
-        // Store the correct path depending on file type (image or screenshot)
-        if (fileType === 'image') {
-            update.imagePath = filePath;
-        } else if (fileType === 'screenshot') {
-            update.screenshotPath = filePath;
-        }
-
-        // Find the session by sessionId and update with the file path
-        await Session.findOneAndUpdate(
-            { sessionId: sessionId },
-            { $set: update },
-            { upsert: true, new: true }
-        );
-
-        console.log(`${fileType} path saved to MongoDB`);
+      const update = {};
+  
+      // Store the correct path depending on file type (image or screenshot)
+      if (fileType === 'image') {
+        update.$push = { imagePaths: filePath };  // Use $push to append to the imagePaths array
+      } else if (fileType === 'screenshot') {
+        update.$push = { screenshotPaths: filePath };  // Use $push to append to the screenshotPaths array
+      }
+  
+      // Find the session by sessionId and update with the file path
+      await Session.findOneAndUpdate(
+        { sessionId: sessionId },
+        update,
+        { upsert: true, new: true }
+      );
+  
+      console.log(`${fileType} path saved to MongoDB`);
     } catch (error) {
-        console.error('Error saving file path to MongoDB:', error);
-        throw error;
+      console.error('Error saving file path to MongoDB:', error);
+      throw error;
     }
-}
+  }
+  
 
 
 const HUGGING_FACE_API_KEY = process.env.HUGGING_FACE_API_KEY;
@@ -148,7 +159,7 @@ app.post('/sessions/:sessionId/analyze', async (req, res) => {
 
   try {
       // Find the session's images from MongoDB
-      const sessionImages = await Session.find({ sessionId });
+      const sessionImages = await Session.findOne({ sessionId });
 
       if (!sessionImages || sessionImages.length === 0) {
           return res.status(404).json({ error: 'No images found for the given session ID' });
@@ -156,31 +167,33 @@ app.post('/sessions/:sessionId/analyze', async (req, res) => {
 
       // Assuming you're dealing with multiple images, you can loop through them
       const analysisResults = [];
-      for (const sessionImage of sessionImages) {
-          const imagePath = sessionImage.imagePath;
-          const imageBuffer = fs.readFileSync(imagePath); // Read the image file from the server
-          // Send the image to Hugging Face model
-          let modelResponse;
-          try{
-           modelResponse = await sendImageToModel(imageBuffer);
-           analysisResults.push({
-            imagePath: imagePath,
-            modelResponse: modelResponse
-        });
-        console.log('Model Response before saving:', modelResponse);
-        // Update the document with the model response
-        await Session.findOneAndUpdate(
-          { _id: sessionImage._id },
-          { modelResponse: modelResponse },  // Add the response from the Hugging Face model
-          { new: true }  // Return the updated document
-      );
-          } catch(error)
-          {
-            console.error("Error analyzing images:", error.message);
-            console.log(imageBuffer);
-            return res.status(500).json({ error: "Failed to process the image with Hugging Face" });
+       // Loop through each image path in the imagePaths array
+       for (const imagePath of sessionImages.imagePaths) {
+        try {
+            // Read the image file from the server
+            const imageBuffer = fs.readFileSync(imagePath);
 
-          }
+            // Send the image to Hugging Face model
+            const modelResponse = await sendImageToModel(imageBuffer);
+            
+            // Store the analysis result
+            analysisResults.push({
+                imagePath: imagePath,
+                modelResponse: modelResponse
+            });
+
+            console.log('Model Response before saving:', modelResponse);
+
+            // Update the document with the model response
+            await Session.findOneAndUpdate(
+                { sessionId: sessionId },
+                { $push: { modelResponse: modelResponse } }, // Assuming modelResponse is an array in the schema
+                { new: true }
+            );
+        } catch (error) {
+            console.error("Error analyzing image:", error.message);
+            return res.status(500).json({ error: "Failed to process the image with Hugging Face" });
+        }
 
           
       }
@@ -195,28 +208,41 @@ app.post('/sessions/:sessionId/analyze', async (req, res) => {
 
 
 // Helper function to send the image to Hugging Face model
-async function sendImageToModel(imageBuffer,retries=3,delay=2000) {
-  for(let i=0;i<retries;i++)
-  {
-  try {
-    const response = await axios.post(
-      MODEL_URL,
-      imageBuffer,
-      {
-        headers: {
-          Authorization:  process.env.HUGGING_FACE_API_KEY,
-          'Content-Type': 'application/octet-stream',
-        },
-      }
-    );
+// Helper function to send the image to Hugging Face model
+async function sendImageToModel(imageBuffer, retries = 5, delay = 5000) {
+  for (let i = 0; i < retries; i++) {
+      try {
+          const response = await axios.post(
+              MODEL_URL,
+              imageBuffer,
+              {
+                  headers: {
+                      Authorization: process.env.HUGGING_FACE_API_KEY,  // Corrected authorization format
+                      'Content-Type': 'application/octet-stream',
+                  },
+              }
+          );
 
-    // The response from the Hugging Face model
-    return response.data;
-  } catch (error) {
-    console.error('Error sending image to Hugging Face model:', error);
-    throw new Error('Failed to process the image with Hugging Face');
+          // If we get a successful response, return it
+          return response.data;
+
+      } catch (error) {
+          if (error.response && error.response.status === 503 && error.response.data.error.includes('currently loading')) {
+              const estimatedTime = error.response.data.estimated_time || 5000; // Use estimated time if available
+              console.log(`Model is still loading, retrying in ${estimatedTime} milliseconds...`);
+              
+              // Wait for the estimated time before retrying
+              await new Promise(resolve => setTimeout(resolve, estimatedTime));
+          } else {
+              console.error('Error sending image to Hugging Face model:', error.message);
+              throw new Error('Failed to process the image with Hugging Face');
+          }
+      }
   }
-}}
+
+  throw new Error('Exceeded retry limit, unable to process the image.');
+}
+
 (async () => {
     try {
         await connectToDB(); // Establish the MongoDB connection
