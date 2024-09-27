@@ -4,6 +4,7 @@ steps to create .env file:
 inside the .env file write :
 
     MONGODB_URI=your_mongodb_connection_string
+    HUGGING_FACE_API_KEY = Bearer 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
     PORT=5000
 
 other installations requried: 
