@@ -1,2 +1,6 @@
 install- npm install html2canvas
 create a new folder in backend "screenshots" 
+change the env file
+MONGODB_URI=your_mongodb_string
+HUGGING_FACE_API_KEY = Bearer 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
+PORT=5000
