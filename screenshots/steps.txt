@@ -1,0 +1,2 @@
+install- npm install html2canvas
+create a new folder in backend "screenshots" 
