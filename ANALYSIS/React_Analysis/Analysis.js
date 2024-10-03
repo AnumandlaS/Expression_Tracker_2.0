@@ -131,6 +131,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import './Analysis.css';
 
 const Analysis = () => {
@@ -164,14 +165,18 @@ const Analysis = () => {
         </thead>
         <tbody>
           {sessions.map((session) => {
-            // Check if timestamp is an array and has the expected length
             const timestamp = Array.isArray(session.timestamp) && session.timestamp.length === 2 ? session.timestamp : ["Invalid Date", "Invalid Time"];
             const [date, time] = timestamp; // Destructure the array
 
             return (
               <tr key={session._id}>
                 <td>{session.sessionName}</td>
-                <td>{session.sessionId.slice(-4)}</td>
+                <td>
+                <Link to={`/analysis/${session.sessionId}`}>
+                  {session.sessionId.slice(-4)} {/* Displaying last 4 digits */}
+                </Link>
+
+                </td>
                 <td>{date}</td> {/* Use the date from the array */}
                 <td>{time}</td> {/* Use the time from the array */}
               </tr>

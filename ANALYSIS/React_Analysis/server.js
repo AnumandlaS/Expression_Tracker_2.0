@@ -15,6 +15,28 @@ const app = express();
 app.use(cors({
     origin: 'http://localhost:3000',
 }));
+
+// Endpoint to fetch all data related to a session by ID in overallAnalysis.js 
+app.get('/sessions/:sessionId', async (req, res) => {
+    console.log("Inside the get func to get all the db");
+    const { sessionId } = req.params;
+    console.log(sessionId);
+    try {
+      // Fetch session data by sessionId from MongoDB
+      const sessionData = await Session.findOne({ sessionId });
+    console.log(sessionData);
+      if (!sessionData) {
+        return res.status(404).json({ message: 'Session not found' });
+      }
+  
+      // Return all related session data
+      res.status(200).json(sessionData);
+    } catch (error) {
+      console.error('Error fetching session data:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+
 // created an end point to access session name ans session Id for the analysis part 
 app.get('/api/sessions', async (req, res) => {
     try {
