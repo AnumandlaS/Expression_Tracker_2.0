@@ -24,7 +24,7 @@ app.get('/sessions/:sessionId', async (req, res) => {
     try {
       // Fetch session data by sessionId from MongoDB
       const sessionData = await Session.findOne({ sessionId });
-    console.log(sessionData);
+      console.log(sessionData);
       if (!sessionData) {
         return res.status(404).json({ message: 'Session not found' });
       }
@@ -35,22 +35,35 @@ app.get('/sessions/:sessionId', async (req, res) => {
       console.error('Error fetching session data:', error);
       res.status(500).json({ message: 'Internal Server Error' });
     }
-  });
+});
 
-// created an end point to access session name ans session Id for the analysis part 
-app.get('/api/sessions', async (req, res) => {
+// Get all session IDs, session names, and timestamps
+app.get('/sessions', async (req, res) => {
     try {
-      const sessions = await Session.find({}, 'sessionId sessionName'); // Fetch only required fields
-      res.json(sessions);
-    } catch (error) {
-      console.error('Error fetching sessions:', error);
-      res.status(500).send('Server error');
-    }
-  });
+        // Fetch all sessions with sessionId, sessionName, and timestamp fields
+        const sessions = await Session.find({}, 'sessionId sessionName timestamp');
 
+        // Map to create an array of objects with sessionId, sessionName, and formatted timestamp
+        const sessionData = sessions.map(session => {
+            const date = new Date(session.timestamp);
+            return {
+                sessionId: session.sessionId,
+                sessionName: session.sessionName,
+                timestamp: [
+                    date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+                    date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })
+                ]
+            };
+        });
+
+        res.status(200).json(sessionData);
+    } catch (error) {
+        console.error('Error fetching sessions:', error);
+        res.status(500).json({ error: 'Failed to fetch sessions' });
+    }
+});
 
 // Get the next available child name based on the current highest ChildXXX
-// Assuming you're using Express and Mongoose
 app.get('/next-child', async (req, res) => {
     try {
         // Query the database for all session names that match the pattern 'ChildXXX'
@@ -77,29 +90,7 @@ app.get('/next-child', async (req, res) => {
     }
 });
 
-
-// Get all session IDs and session names
-app.get('/sessions', async (req, res) => {
-    try {
-        // Fetch all sessions with sessionId and sessionName fields
-        const sessions = await Session.find({}, 'sessionId sessionName');
-
-        // Map to create an array of objects with sessionId and sessionName
-        const sessionData = sessions.map(session => ({
-            sessionId: session.sessionId,
-            sessionName: session.sessionName
-        }));
-
-        res.status(200).json(sessionData);
-    } catch (error) {
-        console.error('Error fetching sessions:', error);
-        res.status(500).json({ error: 'Failed to fetch sessions' });
-    }
-});
-
-
 // Get images for a specific session ID
-// Endpoint to get media (images and screenshots) for a session
 app.get('/sessions/:sessionId/media', async (req, res) => {
     const { sessionId } = req.params;
     try {
@@ -118,8 +109,7 @@ app.get('/sessions/:sessionId/media', async (req, res) => {
       console.error('Error fetching media:', error);
       res.status(500).json({ error: 'Failed to fetch media' });
     }
-  });
-  
+});
 
 // Serve uploaded images
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -164,16 +154,17 @@ app.post('/uploads', upload.single('image'), async (req, res) => {
         if (!req.file) {
             return res.status(400).json({ error: 'No file uploaded' });
         }
-        const { newSessionId,sessionName} = req.body;
+        const { newSessionId, sessionName } = req.body;
         const imagePath = req.file.path;  // Use the path from multer
 
-        await saveAnalysisResult(imagePath, newSessionId,sessionName,'image'); // Save the result to MongoDB
+        await saveAnalysisResult(imagePath, newSessionId, sessionName, 'image'); // Save the result to MongoDB
         res.status(200).json({ message: 'Image uploaded and data saved to DB' });
     } catch (error) {
         console.error('Error saving to DB:', error);
         res.status(500).json({ error: 'Failed to save image or session data' });
     }
 });
+
 // Endpoint to handle screenshot uploads (stored in 'screenshots' folder)
 app.post('/screenshots', uploadScreenshot.single('screenshot'), async (req, res) => {
     try {
@@ -181,11 +172,11 @@ app.post('/screenshots', uploadScreenshot.single('screenshot'), async (req, res)
             return res.status(400).json({ error: 'No screenshot uploaded' });
         }
 
-        const { newSessionId ,sessionName} = req.body;
+        const { newSessionId, sessionName } = req.body;
         const screenshotPath = req.file.path;  // Use the path from multer (screenshots/)
 
         // Save screenshot path to MongoDB
-        await saveAnalysisResult(screenshotPath, newSessionId, sessionName,'screenshot');  // Indicate it's a screenshot
+        await saveAnalysisResult(screenshotPath, newSessionId, sessionName, 'screenshot');  // Indicate it's a screenshot
         res.status(200).json({ message: 'Screenshot uploaded and path saved to DB' });
     } catch (error) {
         console.error('Error saving screenshot to DB:', error);
@@ -193,12 +184,12 @@ app.post('/screenshots', uploadScreenshot.single('screenshot'), async (req, res)
     }
 });
 
-
 async function saveAnalysisResult(filePath, sessionId, sessionName, fileType) {
     try {
-        console.log("Session Name : ",sessionName);
+        console.log("Session Name : ", sessionName);
         const update = {
-            sessionName: sessionName || 'Unnamed Session'  // Set default sessionName if not provided
+            sessionName: sessionName || 'Unnamed Session',  // Set default sessionName if not provided
+            timestamp: new Date()  // Add this line to update the timestamp
         };
         // Store the correct path depending on file type (image or screenshot)
         if (fileType === 'image') {
@@ -221,13 +212,9 @@ async function saveAnalysisResult(filePath, sessionId, sessionName, fileType) {
     }
 }
 
-
-  
-
-
 const HUGGING_FACE_API_KEY = process.env.HUGGING_FACE_API_KEY;
-const MODEL_URL="https://api-inference.huggingface.co/models/trpakov/vit-face-expression";
-// Middleware to get image, send to model, and save the response
+const MODEL_URL = "https://api-inference.huggingface.co/models/trpakov/vit-face-expression";
+
 // Fetch analysis for images of a specific session
 app.post('/sessions/:sessionId/analyze', async (req, res) => {
   const { sessionId } = req.params;
@@ -241,9 +228,9 @@ app.post('/sessions/:sessionId/analyze', async (req, res) => {
       }
 
       // Assuming you're dealing with multiple images, you can loop through them
-const analysisResults = [];
-       // Loop through each image path in the imagePaths array
-       for (const imagePath of sessionImages.imagePaths) {
+      const analysisResults = [];
+      // Loop through each image path in the imagePaths array
+      for (const imagePath of sessionImages.imagePaths) {
         try {
             // Read the image file from the server
             const imageBuffer = fs.readFileSync(imagePath);
@@ -269,8 +256,8 @@ const analysisResults = [];
             console.error("Error analyzing image:", error.message);
             return res.status(500).json({ error: "Failed to process the image with Hugging Face" });
         }
-}
-// Return the analysis results to the client
+      }
+      // Return the analysis results to the client
       res.status(200).json({ message: 'Analysis completed and results saved', analysisResults });
   } catch (error) {
       console.error(`Error analyzing images for session ${sessionId}:`, error);
@@ -278,8 +265,6 @@ const analysisResults = [];
   }
 });
 
-
-// Helper function to send the image to Hugging Face model
 // Helper function to send the image to Hugging Face model
 async function sendImageToModel(imageBuffer, retries = 5, delay = 5000) {
   for (let i = 0; i < retries; i++) {
@@ -289,7 +274,7 @@ async function sendImageToModel(imageBuffer, retries = 5, delay = 5000) {
               imageBuffer,
               {
                   headers: {
-                      Authorization: process.env.HUGGING_FACE_API_KEY,  // Corrected authorization format
+                      Authorization: `Bearer ${process.env.HUGGING_FACE_API_KEY}`,
                       'Content-Type': 'application/octet-stream',
                   },
               }
