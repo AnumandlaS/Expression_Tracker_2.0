@@ -1,0 +1,100 @@
+/* analysis.css */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  font-family: 'Arial', sans-serif;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table thead th {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  text-align: left;
+  font-family: 'Verdana', sans-serif;
+}
+
+.table tbody tr {
+  background-color: #f9f9f9;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-family: 'Verdana', sans-serif;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.table tbody td {
+  text-align: left;
+}
+
+.table tbody td:first-child {
+  font-weight: bold;
+  color: #333;
+}
+
+.table tbody td:last-child {
+  text-align: center;
+}
+
+th, td {
+  padding: 12px 15px;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #e1f5e1;
+}
+
+/* Add responsive design for smaller screens */
+@media (max-width: 600px) {
+  .table thead {
+    display: none;
+  }
+
+  .table tbody tr {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .table tbody td {
+    display: block;
+    text-align: right;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  .table tbody td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 15px;
+    font-weight: bold;
+    text-align: left;
+  }
+}
