@@ -1,0 +1,52 @@
+import React from "react";
+
+const SessionTable = () => {
+  // Example data for session table, replace with actual data if needed
+  const sessions = [
+    { loginId: "user1@example.com", sessionId: "12345", date: "2024-09-27", time: "14:30:00" },
+    { loginId: "user2@example.com", sessionId: "12346", date: "2024-09-27", time: "14:45:00" },
+    { loginId: "user3@example.com", sessionId: "12347", date: "2024-09-27", time: "15:00:00" },
+  ];
+
+  return (
+    <>
+      {/* Navbar */}
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="session_ids.html">Emotion Analysis</a>
+        </div>
+      </nav>
+
+      {/* Table Container */}
+      <div className="container mt-4">
+        <h1 className="text-center">Session IDs</h1>
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Login ID</th>
+              <th>Session ID</th>
+              <th>Date</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sessions.map((session, index) => (
+              <tr key={index}>
+                <td>{session.loginId}</td>
+                <td>
+                  <a href={`overall.html?sessionId=${session.sessionId}`} className="session-link">
+                    {session.sessionId}
+                  </a>
+                </td>
+                <td>{session.date}</td>
+                <td>{session.time}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+};
+
+export default SessionTable;
