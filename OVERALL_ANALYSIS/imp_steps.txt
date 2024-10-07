@@ -1,0 +1,15 @@
+In this overall analysisi folder what all changes are done are listed here :
+-> added a background image
+-> Analysis part finished where we display the table of session ids, names,data,time
+(once when you click on the session id button if the analysis is not already existing then it makes call to the model , if nnot it derectly 
+navigates to the next page ) note: if analysis is not there and when you click on the session id button it will not be that fast 
+you should click the button 2 or 3 times and then referesh it  after that it will navigate to next page (overal analysis)
+-> overall analysis is almost done but the css part is not working properly 
+
+Installations requried -
+
+npm install bootstrap 
+npm install chart.js
+(both Installations in the frontend)
+
+
