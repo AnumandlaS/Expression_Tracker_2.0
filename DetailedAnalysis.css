@@ -1,0 +1,22 @@
+/* Base styles for the images (for mobile and tablet) */
+.img-fluid {
+    max-width: 100%;
+    height: auto; /* Maintain aspect ratio */
+  }
+  
+  /* Styles specifically for laptops */
+  @media (min-width: 768px) and (max-width: 1200px) {
+    .img-fluid {
+      max-width: 90%; /* Adjust size for laptop screens */
+      height: auto; /* Keep the aspect ratio */
+    }
+  }
+  
+  /* Optional: Styles for larger screens */
+  @media (min-width: 1200px) {
+    .img-fluid {
+      max-width: 80%; /* Adjust size for larger screens if needed */
+      height: auto; /* Maintain aspect ratio */
+    }
+  }
+  
