@@ -10,7 +10,7 @@ html, body {
 
 /* Full-screen background for Home and Game Pages */
 .full-background {
-  background-image: url('C:\Users\Govardhan\my-react-app\src\components\backgrongImage.png'); /* Use relative path */
+  background-image: url('C:\Users\ksuja\websiteeeee\public\images\bg4-image.png'); /* Use relative path */
   opacity: 0.9;
   background-size: cover; /* Cover the entire area */
   background-position: center; /* Center the image */
@@ -21,9 +21,9 @@ html, body {
 
 /* No background for Analysis and other pages */
 .no-background {
-  background-color: white; /* Optional: set a plain color */
+  background-color: rgba(255, 255, 255, 0); /* Optional: set a plain color */
   max-width: 700px;
-  max-height: 0px;
+  max-height: auto;
 }
 
 /* Content styles */
@@ -37,7 +37,7 @@ html, body {
 }
 
 .analysis-background {
-  background-image: url('C:\Users\Govardhan\my-react-app\public\images\bg.avif'); /* Replace with your image path */
+  background-image: url('C:\Users\ksuja\websiteeeee\public\images\analysis.jpg'); /* Replace with your image path */
   opacity: 0.9;
   background-size: cover; /* Cover the entire area */
   background-position: center; /* Center the image */
@@ -61,7 +61,7 @@ body {
 
 /* Add this CSS rule */
 .login-background {
-  background-image: url('C:\Users\Govardhan\my-react-app\src\components\backgrongImage.png'); /* Replace with your image path */
+  background-image: url('C:\Users\ksuja\websiteeeee\public\images\bg4-image.png'); /* Replace with your image path */
   opacity: 0.9 ;
   background-size: cover; /* Cover the entire container */
   background-position: center; /* Center the background image */
@@ -75,9 +75,9 @@ body {
 
 /* Example: Update the paths as needed */
 .full-background {
-  background-image: url('C:\Users\Govardhan\my-react-app\src\components\backgrongImage.png'); /* Ensure the path is correct */
+  background-image: url('C:\Users\ksuja\websiteeeee\public\images\bg4-image.png'); /* Ensure the path is correct */
 }
 
 .analysis-background {
-  background-image: url('C:\Users\Govardhan\my-react-app\public\images\bg.avif'); /* Ensure the path is correct */
+  background-image: url('C:\Users\ksuja\websiteeeee\public\images\analysis.jpg'); /* Ensure the path is correct */
 }
