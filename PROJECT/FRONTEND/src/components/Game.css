@@ -1,10 +1,10 @@
 /* src/components/Game.css */
 :root {
-  --primary-color: #171616;
+  --primary-color: #0c0c0c;
   --secondary-color: #eba421;
   --accent-color: #cc74ff;
   --text-color: rgb(21, 20, 20);
-  --background-color: #8eb5c6;
+  --background-color: #ACDEE1;
   --correct-color: #00b894;
   --wrong-color: #d63031;
   --word-color: white;
@@ -82,9 +82,23 @@ body {
   border: none;
   border-radius: 5px;
   padding: 10px;
-  color: var(--word-color);
+  color: var(--word-color); /* Default text color white */
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Slow down transition for transform */
+}
+
+/* Add hover effect for buttons */
+.btn:hover {
+  background-color: #d8a620; /* Darker variant of secondary color */
+  transform: scale(1.05);
+  color: white; /* Keep text color white on hover */
+}
+
+/* Ensure text remains white when clicked with smooth transition */
+.btn:active {
+  background-color: #c79c16; /* Darker shade for active state */
+  color: white !important; /* Force text color to remain white */
+  transform: scale(0.97); /* Slightly slower scale down for click effect */
 }
 
 .end-screen {
@@ -92,50 +106,45 @@ body {
 }
 
 .end-message {
-  font-size: 1
-  
+  font-size: 2rem;       
+  font-weight: bold;       
+  color: #333;          
+  margin-bottom: 1rem;     
+  text-align: center;      
 }
+
 .btn.correct {
-  background-color: green; /* Green background for correct answers */
-  color: white;
+  background-color: green; 
+  color: white; /* Keep text white */
 }
 
 .btn.wrong {
-  background-color: red; /* Red background for wrong answers */
-  color: white;
+  background-color: red; 
+  color: white; /* Keep text white */
 }
 
-
 body.correct-background {
-  background-color: green !important; /* Green background for correct answers */
+  background-color: green !important; 
 }
 
 body.wrong-background {
-  background-color: red !important; /* Red background for wrong answers */
+  background-color: red !important; 
 }
 
-body {
-  transition: background-color 0.5s ease;
-}
-/* Game.css */
 .original-bg {
-  background-color: #ffffff; /* Replace with the original background color */
+  background-color: #ffffff; 
 }
 
-/* Game.css */
 .game-container {
   width: 100%;
-  max-width: 800px; /* Optional: Adjust max width to center the game area */
-  max-height: 500px;
-  overflow-y: auto;
+  max-width: 800px; 
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
-  background-color: #fff; /* Background color of your game container */
-  border-radius: 10px; /* Optional: For a rounded border effect */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Adds a shadow for better visibility */
+  background-color: #E6F5E5; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
-/* Game.css */
 
 /* Add styles for the start screen */
 .start-screen {
@@ -144,22 +153,72 @@ body {
   align-items: center;
   height: 30vh;
   width: 300px;
-   /* Full viewport height */
-  background-color: white; /* White background for visibility */
+  background-color: #E6F5E5; 
 }
 
 .start-btn {
-  padding: 20px 40px; /* Increase padding for a larger button */
-  font-size: 24px; /* Larger font size for better visibility */
-  background-color: #eba421; /* Green background color */
-  color: white; /* White text color */
-  border: none; /* Remove border */
-  border-radius: 10px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s ease; /* Smooth background transition */
+  padding: 20px 40px; 
+  font-size: 24px; 
+  background-color: #eba421; 
+  color: white; /* Default text color white */
+  border: none; 
+  border-radius: 10px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Slow down transition for transform */
 }
 
 /* Add hover effect for the start button */
 .start-btn:hover {
-  background-color: #eba421; /* Darker green on hover */
+  background-color: #d8a620; 
+  color: white; /* Keep text white on hover */
+}
+
+/* Ensure text remains white when clicked with smooth transition */
+.start-btn:active {
+  background-color: #c79c16; /* Darker shade for active state */
+  color: white !important; /* Force text color to remain white */
+  transform: scale(0.97); /* Slightly slower scale down for click effect */
+}
+
+.score {
+  font-size: 1.5rem;         
+  font-weight: bold;       
+  color: #333;             
+  margin-bottom: 2rem;     
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 600px) {
+  .question-text {
+    font-size: 1.4rem;
+  }
+
+  .btn {
+    font-size: 1rem;
+    padding: 8px;
+  }
+
+  .start-btn {
+    font-size: 20px;
+    padding: 15px 30px;
+  }
+
+  .timer-container {
+    position: relative;
+    width: 100px; /* Diameter of the circle */
+    height: 100px; /* Diameter of the circle */
+    border: 10px solid #4CAF50; /* Circular border color */
+    border-radius: 50%; /* Makes the div circular */
+    display: flex;
+    align-items: center; /* Centers vertically */
+    justify-content: center; /* Centers horizontally */
+    background-color: #f0f0f0; /* Background color for contrast */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  }
+
+  .timer {
+    font-size: 24px; /* Increase font size for better visibility */
+    font-weight: bold; /* Make it bold */
+    color: #4CAF50; /* Modern green color */
+  }
 }
