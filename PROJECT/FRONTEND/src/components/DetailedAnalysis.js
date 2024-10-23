@@ -59,9 +59,8 @@ const ExpressionAnalysis = () => {
 
   return (
     <div className="container-fluid">
-      
       <div className="image-strip-container">
-      <h2>Detailed Analysis</h2>
+        <h1>DETAILED ANALYSIS</h1>
         <div className="image-strip">
           {sessionData.imagePaths.map((imagePath, index) => {
             const emotions = sessionData.modelResponse[index];
@@ -90,7 +89,8 @@ const ExpressionAnalysis = () => {
           })}
         </div>
       </div>
-    </div>)
+    </div>
+  );
 };
 
 export default ExpressionAnalysis;
