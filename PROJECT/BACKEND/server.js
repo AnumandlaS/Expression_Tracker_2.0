@@ -208,8 +208,12 @@ app.get('/sessions/analysis/:sessionId', async (req, res) => {
         // Find the session by sessionId
         const session = await Session.findOne({ sessionId });
         console.log(session);
+        if(!(session.modelResponse.length === session.imagePaths.length))
+        {
+            console.log("not equal");
+        }
         // Check if session or modelResponse exist
-        if (!session || !session.modelResponse || session.modelResponse.length === 0) {
+        if (!session || !session.modelResponse || session.modelResponse.length === 0 || !(session.modelResponse.length === session.imagePaths.length)) {
             // Return 404 if no analysis data is available or the array is empty
             console.log("not found ");
             return res.status(404).json({ message: 'No analysis found for this session' });
