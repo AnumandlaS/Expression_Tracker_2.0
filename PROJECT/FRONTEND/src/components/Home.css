@@ -11,7 +11,7 @@ body {
   padding: 0;
   height: 100vh;
   font-family: Arial, sans-serif;
-  /*position: relative;*/
+  position: fixed;
 }
 
 body::before {
@@ -28,6 +28,7 @@ body::before {
   background-attachment: fixed; /* Keeps the background fixed when scrolling */
   opacity: 0.7; /* Set background image opacity */
   z-index: -1; /* Ensures the background stays behind the content */
+  overflow: hidden;
 }
 
 /* General Home Page Styles */
@@ -91,9 +92,10 @@ body::before {
 
 /* Home Page Buttons */
 .home-buttons {
+  margin-bottom: 100px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Aligns buttons to the left */
+  align-items: flex-center; /* Aligns buttons to the left */
   padding-left: 20px; /* Add some padding to separate from the edge */
 }
 

@@ -1,0 +1,12 @@
+.timer-bar {
+  height: 20px;
+  width: 65%; /* Set a fixed width */
+  background-color: #ccc;
+  border-radius: 5px;
+}
+
+.timer-fill {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 1s linear;
+}
