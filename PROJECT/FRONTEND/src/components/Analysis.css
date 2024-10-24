@@ -121,6 +121,7 @@ th, td {
   cursor: pointer;
   display: inline-block; /* Ensure inline-block for proper spacing */
   min-width: 120px; /* Ensures buttons are consistently sized */
+  text-decoration: none;
 }
 
 .analyze-button:hover, .overall-analysis-button:hover, .detailed-analysis-button:hover {
