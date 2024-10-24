@@ -46,7 +46,11 @@ const ExpressionAnalysis = () => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="loading-wrapper">
+        <div className="circular-loader"></div>
+      </div>
+    );
   }
 
   if (error) {

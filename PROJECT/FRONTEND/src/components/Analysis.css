@@ -1,4 +1,4 @@
-/* Container and Table Styling */
+/* Container Styling */
 .container {
   padding: 50px;
   max-width: 800px;
@@ -6,24 +6,26 @@
   text-align: center;
 }
 
+/* Header Styling */
 h1 {
   font-family: 'Arial', sans-serif;
   font-size: 2rem;
   margin-bottom: 20px;
 }
 
+/* Table Styling */
 .table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  overflow-y: auto;
 }
 
 .scrollable-table-container {
-  max-height: 500px;
+  max-height: 600px;
   overflow-y: auto;
 }
 
+/* Table Header Styling */
 .table thead th {
   background-color: #4CAF50;
   color: white;
@@ -32,6 +34,7 @@ h1 {
   font-family: 'Verdana', sans-serif;
 }
 
+/* Table Row Styling */
 .table tbody tr {
   background-color: #f9f9f9;
 }
@@ -40,21 +43,19 @@ h1 {
   background-color: #f2f2f2;
 }
 
+.table tbody tr:hover {
+  background-color: #e1f5e1;
+  cursor: pointer;
+}
+
+/* Table Cell Styling */
 .table th, .table td {
   border: 1px solid #ddd;
   padding: 10px;
   font-family: 'Verdana', sans-serif;
 }
 
-.table tbody tr:hover {
-  background-color: #f1f1f1;
-  cursor: pointer;
-}
-
-.table tbody td {
-  text-align: left;
-}
-
+/* Highlight First and Last Cell */
 .table tbody td:first-child {
   font-weight: bold;
   color: #333;
@@ -64,16 +65,9 @@ h1 {
   text-align: center;
 }
 
+/* General Table Cell Padding */
 th, td {
   padding: 12px 15px;
-}
-
-.table-striped tbody tr:nth-of-type(odd) {
-  background-color: #f9f9f9;
-}
-
-.table-hover tbody tr:hover {
-  background-color: #e1f5e1;
 }
 
 /* Responsive Design for Smaller Screens */
@@ -105,8 +99,7 @@ th, td {
   }
 }
 
-/* Button Styling for Analyze, Overall Analysis, and Detailed Analysis */
-/* Button Styling for Analyze, Overall Analysis, and Detailed Analysis */
+/* Button Styling */
 .analyze-button, .overall-analysis-button, .detailed-analysis-button {
   background-color: #4CAF50; /* Sleek green */
   border: none;
@@ -151,3 +144,43 @@ th, td {
   border-width: 0.2em;
 }
 
+/* Hourglass Spinner Styling */
+html, body {
+  width: 100%;
+  background: #f0f0f0;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full height for better centering */
+}
+
+.hourglass {
+  display: block;
+  background: #f0f0f0;
+  margin: 3em auto;
+  width: 2em;
+  height: 4em;
+  animation: hourglass 1s linear infinite; /* Infinite spinning animation */
+}
+
+.outer {
+  fill: #4CAF50;
+}
+
+.middle {
+  fill: #f0f0f0;
+}
+
+@keyframes hourglass {
+  0% {
+    transform: rotate(0deg);
+    box-shadow: inset #4CAF50 0 0em 0 0, inset #f0f0f0 0 -2em 0 0, inset #4CAF50 0 -4em 0 0;
+  }
+  100% {
+    transform: rotate(360deg);
+    box-shadow: inset #f0f0f0 0 0em 0 0, inset #4CAF50 0 -2em 0 0, inset #f0f0f0 0 -4em 0 0;
+  }
+}
