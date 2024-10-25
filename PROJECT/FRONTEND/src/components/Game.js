@@ -70,7 +70,7 @@ const Game = () => {
   const [shuffledQuestions, setShuffledQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [timeRemaining, setTimeRemaining] = useState(3 * 60); // 3 minutes
+  const [timeRemaining, setTimeRemaining] = useState(2 * 60); // 3 minutes
   const [showEndScreen, setShowEndScreen] = useState(false);
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
   const [answerStates, setAnswerStates] = useState([]); // Array to track button states
@@ -166,7 +166,7 @@ const Game = () => {
     setShuffledQuestions(questions.sort(() => Math.random() - 0.5));
     setCurrentQuestionIndex(0);
     setScore(0);
-    setTimeRemaining(3 * 60);
+    setTimeRemaining(2 * 60);
     setShowEndScreen(false);
     setSelectedAnswerIndex(null);
     setAnswerStates([]);
@@ -400,6 +400,7 @@ const Game = () => {
             <div className="question-text">
               {shuffledQuestions[currentQuestionIndex]?.question}
             </div>
+            {/* <Stopwatch /> */}
             <img
               src={shuffledQuestions[currentQuestionIndex]?.image}
               alt="Question"

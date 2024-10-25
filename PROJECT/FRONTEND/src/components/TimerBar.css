@@ -1,6 +1,6 @@
 .timer-bar {
   height: 20px;
-  width: 65%; /* Set a fixed width */
+  width: 100%; /* Set a fixed width */
   background-color: #ccc;
   border-radius: 5px;
 }
