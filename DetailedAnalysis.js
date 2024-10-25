@@ -273,7 +273,11 @@ const ExpressionAnalysis = () => {
   };
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="loading-wrapper">
+        <div className="circular-loader"></div>
+      </div>
+    );
   }
 
   if (error) {
@@ -286,8 +290,8 @@ const ExpressionAnalysis = () => {
 
   return (
     <div className="container-fluid">
-      <h2>Detailed Analysis</h2>
       <div className="image-strip-container">
+        <h1>DETAILED ANALYSIS</h1>
         <div className="image-strip">
           {sessionData.imagePaths.map((imagePath, index) => {
             const emotions = sessionData.modelResponse[index];
@@ -316,7 +320,8 @@ const ExpressionAnalysis = () => {
           })}
         </div>
       </div>
-    </div>)
+    </div>
+  );
 };
 
 export default ExpressionAnalysis;

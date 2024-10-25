@@ -37,7 +37,7 @@ const Home = () => {
         boxShadow: 'none',
       }}>
         <div className="container-fluid">
-          <a className="navbar-brand" href="/">Joy With Gaming </a>
+          <a className="navbar-brand" href="/"  > <img src="favicon.ico" alt="Favicon" style={{ width: '50px',height:'50px', marginRight: '10px' }}/> <b>EXPRESSION TRACKER </b> </a>
           <button
             className="navbar-toggler"
             type="button"
