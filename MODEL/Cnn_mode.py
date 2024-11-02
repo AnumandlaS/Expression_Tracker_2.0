@@ -94,7 +94,12 @@ def train(model, train_data, train_labels, epochs=10):
         print(f'Epoch {epoch + 1}/{epochs}, Loss: {loss.numpy()}')
 
 # Step 4: Load the Labels
-base_dir = '/root/.cache/kagglehub/datasets/noamsegal/affectnet-training-data/versions/3'
+import kagglehub
+import os
+
+# Download latest version
+base_dir = kagglehub.dataset_download("noamsegal/affectnet-training-data")
+print("Path to dataset files:", base_dir)
 labels_df = pd.read_csv(os.path.join(base_dir, 'labels.csv'))
 
 # Create a mapping for labels
