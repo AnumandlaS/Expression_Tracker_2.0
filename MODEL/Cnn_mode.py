@@ -1,8 +1,11 @@
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+
+
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import os
+
 
 # Step 1: Define the SimpleCNN Class
 class SimpleCNN:
@@ -10,7 +13,7 @@ class SimpleCNN:
         self.input_shape = input_shape
         self.num_classes = num_classes
         self.learning_rate = learning_rate
-        
+
         # Initialize weights and biases
         self.weights = {
             'conv1': tf.Variable(tf.random.normal([3, 3, 3, 32], stddev=0.1)),
@@ -42,7 +45,7 @@ class SimpleCNN:
         flatten = tf.reshape(pool2, [-1, np.prod(pool2.shape[1:])])  # Flatten
         fc1 = tf.nn.relu(tf.matmul(flatten, self.weights['fc1']) + self.biases['fc1'])
         out = tf.matmul(fc1, self.weights['out']) + self.biases['out']
-        
+
         return out
 
     def compute_loss(self, logits, labels):
@@ -52,12 +55,16 @@ class SimpleCNN:
         with tf.GradientTape() as tape:
             loss = self.compute_loss(logits, y)
         gradients = tape.gradient(loss, list(self.weights.values()) + list(self.biases.values()))
-        
+
+        # Update weights and biases
         for i, (w, b) in enumerate(zip(self.weights.values(), self.biases.values())):
-            w.assign_sub(self.learning_rate * gradients[i])
-            b.assign_sub(self.learning_rate * gradients[len(self.weights) + i])
-        
+            if gradients[i] is not None:
+                w.assign_sub(self.learning_rate * gradients[i])
+            if gradients[len(self.weights) + i] is not None:
+                b.assign_sub(self.learning_rate * gradients[len(self.weights) + i])
+
         return loss
+
 
 # Step 2: Data Preparation
 def preprocess_data(df, base_dir, label_mapping):
@@ -68,14 +75,16 @@ def preprocess_data(df, base_dir, label_mapping):
         img = load_img(img_path, target_size=(48, 48))
         img_array = img_to_array(img) / 255.0  # Normalize
         images.append(img_array)
-        
+
         # Convert label to one-hot encoding
         label = row['label']
         one_hot = np.zeros(len(label_mapping))
         one_hot[label_mapping[label]] = 1
         labels.append(one_hot)
-        
+
     return np.array(images), np.array(labels)
+
+
 
 # Step 3: Training Function
 def train(model, train_data, train_labels, epochs=10):
@@ -93,6 +102,7 @@ def train(model, train_data, train_labels, epochs=10):
 
         print(f'Epoch {epoch + 1}/{epochs}, Loss: {loss.numpy()}')
 
+
 # Step 4: Load the Labels
 import kagglehub
 import os
@@ -101,13 +111,52 @@ import os
 base_dir = kagglehub.dataset_download("noamsegal/affectnet-training-data")
 print("Path to dataset files:", base_dir)
 labels_df = pd.read_csv(os.path.join(base_dir, 'labels.csv'))
+labels_df
+
 
 # Create a mapping for labels
 label_mapping = {label: idx for idx, label in enumerate(labels_df['label'].unique())}
 
+
 # Preprocess data
 train_data, train_labels = preprocess_data(labels_df, base_dir, label_mapping)
 
+
 # Step 5: Instantiate and Train the Model
 model = SimpleCNN(input_shape=(48, 48, 3), num_classes=len(label_mapping))
-train(model, train_data, train_labels, epochs=10)
+train(model, train_data, train_labels, epochs=2)
+
+# Step 6: Prediction Function with Probabilities in Descending Order
+def predict_with_probabilities_sorted(model, img_path, label_mapping):
+    # Load and preprocess the image
+    img = load_img(img_path, target_size=(48, 48))
+    img_array = img_to_array(img) / 255.0  # Normalize
+    img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
+
+    # Forward pass to get predictions
+    logits = model.forward(img_array)
+    
+    # Apply softmax to get probabilities
+    probabilities = tf.nn.softmax(logits, axis=1).numpy()[0]  # Convert logits to probabilities
+
+    # Create a list of (emotion, probability) pairs
+    emotion_prob_pairs = [(emotion, prob * 100) for emotion, prob in zip(label_mapping.keys(), probabilities)]
+    
+    # Sort emotions by probability in descending order
+    emotion_prob_pairs = sorted(emotion_prob_pairs, key=lambda x: x[1], reverse=True)
+
+    # Display each emotion with its probability in descending order
+    for emotion, prob in emotion_prob_pairs:
+        print(f"{emotion}: {prob:.2f}%")
+
+    # Get the emotion with the highest probability
+    predicted_emotion = emotion_prob_pairs[0][0]
+
+    # Return the predicted emotion and sorted probabilities
+    return predicted_emotion, emotion_prob_pairs
+
+# Example usage
+test_image_path = '/content/WIN_20241103_19_59_58_Pro.jpg'  # Replace with your image path
+predicted_emotion, sorted_probabilities = predict_with_probabilities_sorted(model, test_image_path, label_mapping)
+print(f'\nPredicted Emotion: {predicted_emotion}')
+
