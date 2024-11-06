@@ -16,7 +16,7 @@ const Analysis = () => {
   
   // Function to fetch session data from the backend.
   const fetchSessions = async () => {
-    try {
+    try { //
       
       const response = await axios.get(process.env.REACT_APP_SESSIONS);// send get request to backend that is server for getting the session existing id
       console.log("API Response:", response.data);
