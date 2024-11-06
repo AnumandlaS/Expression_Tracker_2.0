@@ -37,8 +37,8 @@ const Analysis = () => {
   const handleSessionClick = async (sessionId) => {
     setLoadingSessionId(sessionId);//this will set the null to the specified sessionid
     try {
-      console.log(`Requesting analysis for session ID: ${sessionId}`);
-      console.log(2);
+      console.log(`Requesting analysis for session ID: ${sessionId}`);//printing the message that it is resquesting the analysis for the given sessionid
+      
       const response = await axios.get(`${process.env.REACT_APP_SESSION_ANALYSIS}/${sessionId}`);//we are giving an api call to backend to this function over there
       //then we will get back from there either 404 or 200 or 500
       // if it gives 200 it is saying that for thgat particular session id the it will print thet alreday anaylsis is pt=resent
