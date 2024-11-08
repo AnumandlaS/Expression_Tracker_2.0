@@ -18,13 +18,13 @@ const authSchema = new mongoose.Schema({
   role: { type: String, required: true, enum: ['admin', 'child'] }
 });
 
-// // Hash the password before saving
-// authSchema.pre('save', async function (next) {
-//   if (this.isModified('password')) {
-//     this.password = await bcrypt.hash(this.password, 10);
-//   }
-//   next();
-// });
+// Hash the password before saving
+authSchema.pre('save', async function (next) {
+   if (this.isModified('password')) {
+     this.password = await bcrypt.hash(this.password, 10);
+   }
+   next();
+});
 
 // Create a model for the schema
 const Session = mongoose.model('Session', sessionSchema);
