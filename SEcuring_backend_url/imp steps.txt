@@ -1,0 +1,1 @@
+create an .env folder at frontend and keep an url in that
