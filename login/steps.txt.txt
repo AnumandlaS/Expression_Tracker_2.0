@@ -1,0 +1,7 @@
+1.In mongodb we need to create a collection in existing database for storing credentials of admin and child
+2.I've created the collection called userauth
+3.No changes in .env file
+4.We need to add a new schema which you can find in schema.js
+5.run npm install bcrypt in backend terminal
+6.Coming to the username and passwords I've hardcoded it in index.js to store them in db...which is commented out...After you get the data in collection ensure that it's commented again
+7.password is stored in bcrypt hash type in the database
