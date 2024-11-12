@@ -305,7 +305,7 @@ const LetterOption = ({ letter }) => {
     </div>
   );
 };
-
+// the below functionn endScreen will show what to be displayed when all the questions are completed and also displays the confitti
 const EndScreen = () => {
   return (
     <div className="end-screen text-center p-5">

@@ -523,9 +523,10 @@ const Game = () => {
     if (webcamGranted) {
       //Capture image and screenshot every 10 seconds
       captureIntervalRef.current = setInterval(() => {
+        // this fuction is actually written in useCapture.js hook
                     captureImage(sessionId,sessionName);
                     captureScreenshot(sessionId,sessionName);
-                  }, 10000);
+                  }, 10000);// for setinterval function we gave timer as 10 seconds to cspture image and screenshot for every 10 seconds
       //captureIntervalRef.current = setInterval(captureImage(),captureScreenshot(), 10000);
     }
     document.body.classList.remove("correct", "wrong");
@@ -644,15 +645,6 @@ const Game = () => {
             Allow to access camera
           </button>
         </div>
-      // ) : !cameraActive ? (
-      //   <div className="start-screen">
-      //     <div className="message">
-      //       Camera is not active. Please ensure your camera is turned on and try again.
-      //     </div>
-      //     <button className="btn start-btn" onClick={requestWebcamAccess}>
-      //       Retry Camera Access
-      //     </button>
-      //   </div>
       ) : !hasStarted ? (
         <div className="start-screen">
           <button className="btn start-btn" onClick={startCapture}>
