@@ -22,7 +22,8 @@ const useCapture = (videoRef, sessionId) => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
+    // this below function is to send the captured images along with the 
+    // sessionID,sessionName to the backend 
     canvas.toBlob((blob) => {
       const formData = new FormData();
       formData.append("image", blob, "capture.png");
@@ -34,10 +35,12 @@ const useCapture = (videoRef, sessionId) => {
         .catch((error) => console.error("Error uploading image:", error));
     });
   };
-
+  //   this functio is to capture screenshots
   const captureScreenshot = (newsessionId,sessionName) => {
     console.log("Capture screenshot function called ");
     html2canvas(document.body).then((screenshotCanvas) => {
+      // this function is to send the captured screenshots along with the sessionId , sessionName 
+      // to the backend 
       screenshotCanvas.toBlob((blob) => {
         const formData = new FormData();
         formData.append("screenshot", blob, "screenshot.png");

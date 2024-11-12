@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-
+// this hook is to ask for webcame access 
 const useWebcam = () => {
   const videoRef = useRef(null);
   const [webcamGranted, setWebcamGranted] = useState(false);
