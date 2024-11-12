@@ -1,0 +1,4 @@
+inside src of react app(frontend )
+create a floder called as hooks below the folder components 
+inside hooks add the files useSessionID.js,useWebCamAccess.js,useCapture.js 
+these are the hooks that we have created which we ill be used in both the games 
