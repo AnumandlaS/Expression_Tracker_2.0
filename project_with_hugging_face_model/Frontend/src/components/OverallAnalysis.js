@@ -1,24 +1,19 @@
-
-
-
 import React, { useEffect, useState, useRef } from "react";
 import { Chart } from "chart.js/auto";
 import axios from "axios";
-import { useParams, useNavigate,useLocation } from 'react-router-dom'; // Import useNavigate
+import { useParams, useNavigate, useLocation } from 'react-router-dom'; // Import useNavigate and useLocation
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/OverallAnalysis.css';
 
-
-const OverallExpressionAnalysis = () => {
+const OverallAnalysis = () => {
   const [emotionAverages, setEmotionAverages] = useState({});
-  //const [sessionName, setSessionName] = useState('');
   const { sessionId } = useParams();
-  
   const navigate = useNavigate();
-  const location = useLocation();
-  const { username, role } = location.state || {};
-  // Destructure `username` from state
-  console.log(username,role);
+  const location = useLocation();  // Access location to get username passed from the Analysis page
+  const { username } = location.state || {}; // Extract username from location.state
+  
+  console.log(username);  // Log the username to check
+
   const handleLogout = () => {
     console.log(`${username} logged out.`);
     navigate('/'); // Redirect to the home or login page
@@ -34,8 +29,6 @@ const OverallExpressionAnalysis = () => {
         console.log(1);
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/sessions/${sessionId}`);
         const modelResponse = response.data;
-        //setSessionName(modelResponse.sessionName || 'Unnamed Session'); // Adjust according to your API response structure
-
 
         const emotionTotals = {};
         let count = 0;
@@ -114,8 +107,7 @@ const OverallExpressionAnalysis = () => {
             {
               label: "Average Emotions",
               data: data,
-              backgroundColor: ["#4caf50", "#2196f3", "#f44336", "#ff9800", "#9c27b0"]
-
+              backgroundColor: ["#4caf50", "#2196f3", "#f44336", "#ff9800", "#9c27b0"],
             },
           ],
         },
@@ -138,106 +130,84 @@ const OverallExpressionAnalysis = () => {
       if (barChartRef.current) barChartRef.current.destroy();
     };
   }, [emotionAverages]);
-//const navigate=useNavigate();
-   // Navigate to the detailed analysis page when the button is clicked
-   //const handleDetailedAnalysis = () => {
-    //console.log("hi");
-    //navigate(`/DetailedAnalysis/${sessionId}`);
-//};
 
-const handleAnalysisClick = () => {
-  navigate('/analysis'); // Navigate to the home page
-};
+  const handleAnalysisClick = () => {
+    navigate('/analysis'); // Navigate to the analysis page if needed
+  };
 
   return (
-
     <div>
-    <nav
-          className="navbar navbar-expand-lg navbar-light fixed-top"
-          style={{
-            backgroundColor: 'rgba(173, 216, 230, 0.7)', // Pale white with 70% opacity
-            boxShadow: 'none',
-          }}
-        >
-          <div className="container-fluid">
-            {/* Brand */}
-            <a className="navbar-brand" href="/">
-              <img
-                src="favicon.ico"
-                alt="Favicon"
-                style={{ width: '50px', height: '50px', marginRight: '10px' }}
-              />
-              <b>EXPRESSION TRACKER</b>
-            </a>
-
-            {/* Toggle Button for Mobile */}
+      <nav className="navbar navbar-expand-lg navbar-light fixed-top" style={{
+        backgroundColor: 'rgba(173, 216, 230, 0.7)', // Pale white with 70% opacity
+        boxShadow: 'none',
+      }}>
+        <div className="container-fluid">
+          <a className="navbar-brand" href="/">
+            <img
+              src="favicon.ico"
+              alt="Favicon"
+              style={{ width: '50px', height: '50px', marginRight: '10px' }}
+            />
+            <b>EXPRESSION TRACKER</b>
+          </a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav me-auto">
+              <li className="nav-item"></li>
+            </ul>
             <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarNav"
-              aria-controls="navbarNav"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
+              className="btn logout-btn"
+              onClick={handleLogout}
+              style={{
+                marginLeft: 'auto',
+                backgroundColor: '#2ea8b1',
+                color: 'white',
+                border: 'none',
+                padding: '8px 12px',
+                borderRadius: '5px',
+              }}
             >
-              <span className="navbar-toggler-icon"></span>
+              Logout ({username })
             </button>
-
-            {/* Navbar Links */}
-            <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav me-auto">
-                <li className="nav-item">
-                </li>
-              </ul>
-
-              {/* Logout Button */}
-              <button
-                className="btn logout-btn"
-                onClick={handleLogout}
-                style={{
-                  marginLeft: 'auto',
-                  backgroundColor: '#2ea8b1',
-                  color: 'white',
-                  border: 'none',
-                  padding: '8px 12px',
-                  borderRadius: '5px',
-                }}
-              >
-                Logout ({username || 'admin'})
-              </button>
-            </div>
           </div>
-        </nav>
+        </div>
+      </nav>
 
-
-    <div className="container mt-4 scrollable-table-container">
-      <h1 className="text-center">Overall Expression Analysis</h1>
-      <div className="row my-4">
-        <div className="col-md-12">
-          <h4>Average Emotion Percentages</h4>
-          <ul>
-            {Object.entries(emotionAverages).map(([emotion, avg]) => (
-              <li key={emotion}>
-                {emotion.charAt(0).toUpperCase() + emotion.slice(1)}: {avg.toFixed(2)}%
-              </li>
-            ))}
-          </ul>
-          {/* <button className="btn btn-primary" onClick={handleDetailedAnalysis}>Detailed Analysis</button> */}
-
+      <div className="container mt-4 scrollable-table-container">
+        <h1 className="text-center">Overall Expression Analysis</h1>
+        <div className="row my-4">
+          <div className="col-md-12">
+            <h4>Average Emotion Percentages</h4>
+            <ul>
+              {Object.entries(emotionAverages).map(([emotion, avg]) => (
+                <li key={emotion}>
+                  {emotion.charAt(0).toUpperCase() + emotion.slice(1)}: {avg.toFixed(2)}%
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div id="chartContainer" className="row">
+          <div className="col-md-6">
+            <canvas id="overallChart" width="400" height="400"></canvas>
+          </div>
+          <div className="col-md-6">
+            <canvas id="overallBarChart" width="400" height="400"></canvas>
+          </div>
         </div>
       </div>
-      <div id="chartContainer" className="row">
-        <div className="col-md-6">
-          <canvas id="overallChart" width="400" height="400"></canvas>
-        </div>
-        <div className="col-md-6">
-          <canvas id="overallBarChart" width="400" height="400"></canvas>
-        </div>
-      </div>
-    </div>
-    
     </div>
   );
 };
 
-export default OverallExpressionAnalysis;
+export default OverallAnalysis;

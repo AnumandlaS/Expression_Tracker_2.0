@@ -107,12 +107,16 @@ const Analysis = () => {
   };
   
   const location = useLocation();
-  const { username } = location.state || {}; // Destructure `username` from state
+  const { username } = location.state || {};
+  console.log(username); // Destructure `username` from state
 
   const handleLogout = () => {
     console.log(`${username} logged out.`);
     navigate('/'); // Redirect to the home or login page
   };
+
+ 
+  
 
 // Render the session list with options to analyze and view results.
 
@@ -227,10 +231,10 @@ const Analysis = () => {
                     
                     {existingAnalysis[session.sessionId] && (//then after every analysis done it will display two buttons that areboverall analysis and detailed analysis
                       <div>
-                        <Link to={`/analysis/${session.sessionId}`} className="overall-analysis-button" style={{ marginRight: '10px' }}>
+                        <Link to={`/analysis/${session.sessionId}`} className="overall-analysis-button" style={{ marginRight: '10px' }} state={{ username }}>
                           Overall Analysis
                         </Link><br />
-                        <Link to={`/DetailedAnalysis/${session.sessionId}`} className="detailed-analysis-button">
+                        <Link to={`/DetailedAnalysis/${session.sessionId}`} className="detailed-analysis-button" state={{ username }}>
                           Detailed Analysis
                         </Link>
                       </div>
