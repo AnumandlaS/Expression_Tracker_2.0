@@ -1,60 +1,66 @@
-import { useRef,useEffect,useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useRef } from "react";
 import axios from "axios";
 import html2canvas from "html2canvas";
 
-const useCapture = (videoRef, sessionId) => {
+const useCapture = (videoRef) => {
+    const canvasRef = useRef(null);
 
-  //   const location = useLocation();
-  // const [sessionName, setSessionName] = useState("");
+    // Capture image from video stream
+    const captureImage = (newSessionId, sessionName) => {
+        console.log("Capture image function called");
 
-  // useEffect(() => {
-  //   const session = location.state?.sessionName || "Unnamed Session";
-  //   setSessionName(session);
-  //   console.log("Session Name (in game.js):", session); // Ensure this is printed correctly
-  // }, [location.state]);
+        const video = videoRef.current;
+        const canvas = canvasRef.current;
 
-  const canvasRef = useRef(null);
-    // this function is to capture images 
-  const captureImage = (newsessionId,sessionName) => {
-    console.log("Capture image function called ");
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    // this below function is to send the captured images along with the 
-    // sessionID,sessionName to the backend 
-    canvas.toBlob((blob) => {
-      const formData = new FormData();
-      formData.append("image", blob, "capture.png");
-      formData.append("newSessionId", newsessionId);
-      formData.append("sessionName",sessionName);
-        console.log("in useCapture ",newsessionId,sessionName);
-      axios.post("http://localhost:5000/uploads", formData)
-        .then((response) => console.log("Image uploaded:", response.data))
-        .catch((error) => console.error("Error uploading image:", error));
-    });
-  };
-  //   this functio is to capture screenshots
-  const captureScreenshot = (newsessionId,sessionName) => {
-    console.log("Capture screenshot function called ");
-    html2canvas(document.body).then((screenshotCanvas) => {
-      // this function is to send the captured screenshots along with the sessionId , sessionName 
-      // to the backend 
-      screenshotCanvas.toBlob((blob) => {
-        const formData = new FormData();
-        formData.append("screenshot", blob, "screenshot.png");
-        formData.append("newSessionId", newsessionId);
-        formData.append("sessionName",sessionName);
+        // Null checks to ensure canvas and video exist
+        if (!video || !canvas) {
+            console.error("Canvas or Video element is missing!");
+            return;
+        }
 
-        axios.post("http://localhost:5000/screenshots", formData)
-          .then((response) => console.log("Screenshot uploaded:", response.data))
-          .catch((error) => console.error("Error uploading screenshot:", error));
-      });
-    });
-  };
+        const context = canvas.getContext("2d");
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-  return { canvasRef, captureImage, captureScreenshot };
+        // Convert canvas content to Blob and upload
+        canvas.toBlob((blob) => {
+            if (!blob) {
+                console.error("Failed to create Blob from canvas");
+                return;
+            }
+            const formData = new FormData();
+            formData.append("image", blob, "capture.png");
+            formData.append("newSessionId", newSessionId);
+            formData.append("sessionName", sessionName);
+
+            axios.post("http://localhost:5000/uploads", formData)
+                .then((response) => console.log("Image uploaded:", response.data))
+                .catch((error) => console.error("Error uploading image:", error));
+        });
+    };
+
+    // Capture screenshot of the webpage
+    const captureScreenshot = (newSessionId, sessionName) => {
+        console.log("Capture screenshot function called");
+
+        html2canvas(document.body).then((screenshotCanvas) => {
+            screenshotCanvas.toBlob((blob) => {
+                if (!blob) {
+                    console.error("Failed to create Blob from screenshot");
+                    return;
+                }
+                const formData = new FormData();
+                formData.append("screenshot", blob, "screenshot.png");
+                formData.append("newSessionId", newSessionId);
+                formData.append("sessionName", sessionName);
+
+                axios.post("http://localhost:5000/screenshots", formData)
+                    .then((response) => console.log("Screenshot uploaded:", response.data))
+                    .catch((error) => console.error("Error uploading screenshot:", error));
+            });
+        });
+    };
+
+    return { canvasRef, captureImage, captureScreenshot };
 };
 
 export default useCapture;
