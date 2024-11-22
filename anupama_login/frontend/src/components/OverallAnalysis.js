@@ -1,21 +1,18 @@
-
-
-
-import React, { useEffect, useState, useRef } from "react";
-import { Chart } from "chart.js/auto";
-import axios from "axios";
-import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './OverallAnalysis.css';
+import React, { useEffect, useState, useRef } from "react"; //react imports 
+import { Chart } from "chart.js/auto";//used for creating charts, here doughnut and bar charts
+import axios from "axios";//axios for making http requests (fetching data from backend)
+import { useParams, useNavigate } from 'react-router-dom'; //react router imports - To extract route parameters,navigate pages
+import 'bootstrap/dist/css/bootstrap.min.css'; //using bootstrap for styling
+import './OverallAnalysis.css'; //importing a css file for some specific features like scrolling,remove padding,etc.
 
 
 const OverallExpressionAnalysis = () => {
-  const [emotionAverages, setEmotionAverages] = useState({});
+  const [emotionAverages, setEmotionAverages] = useState({});//emotions are stored as a key value pair
   //const [sessionName, setSessionName] = useState('');
-  const { sessionId } = useParams();
+  const { sessionId } = useParams();//extracted from the url
   
   
-  // References for the charts
+  // References for the charts created for every session to destroy them and create them
   const donutChartRef = useRef(null);
   const barChartRef = useRef(null);
 
