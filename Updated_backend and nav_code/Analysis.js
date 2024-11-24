@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';//for https requests
 import { Link, useNavigate ,useLocation} from 'react-router-dom';//we useNavigate for programmatic navigation.
 import '../styles/Analysis.css';
-import NavBar from './top_navbar.js'
+import NavBar from './Navbar.js'
 
 const Analysis = () => {
   // Define state variables for handling session data, analysis status, loading states, and navigation.
