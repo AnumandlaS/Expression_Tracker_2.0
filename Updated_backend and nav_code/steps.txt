@@ -1,0 +1,2 @@
+create a new folder Navbar.js
+then do the code replacements in given files.
