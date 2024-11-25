@@ -145,11 +145,9 @@ const Analysis = () => {
     }
   };
 
-  const handleHomeClick = () => {
-    navigate('/'); // Navigates to the home page
-  };
   
-  const location = useLocation();
+  
+  const location = useLocation();//using loaction 
   const { username } = location.state || {};
   console.log(username); // Destructure `username` from state
 

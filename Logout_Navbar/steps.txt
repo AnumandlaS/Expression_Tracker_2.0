@@ -1,0 +1,1 @@
+create a new file in components named as logout_navbar and then do the changes
