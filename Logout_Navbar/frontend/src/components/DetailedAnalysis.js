@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';//we are import react in order to use in code and use state and use effect hooks
+import axios from 'axios';//it will help us to make http requests
 import { useParams, useLocation } from 'react-router-dom'; // Import useLocation
-import '../styles/DetailedAnalysis.css';
-import { useNavigate } from 'react-router-dom';
+import '../styles/DetailedAnalysis.css';//importing game.css
+import { useNavigate } from 'react-router-dom';//importing useNavigate 
 import Navbar from './Logout_bar';
 
 const ExpressionAnalysis = () => {
-  const [sessionData, setSessionData] = useState(null); 
+  const [sessionData, setSessionData] = useState(null); //it is a state variable where we are setting the sessiondata initial to null after wards we are changing
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null); 
   const { sessionId } = useParams(); 
@@ -57,7 +57,7 @@ const ExpressionAnalysis = () => {
     return highestEmotion;
   };
 
-  if (loading) {
+  if (loading) {// this is shown when the server is fetching the data 
     return (
       <div className="loading-wrapper">
         <div className="circular-loader"></div>
@@ -68,7 +68,7 @@ const ExpressionAnalysis = () => {
   if (error) {
     return <p>{error}</p>;
   }
-
+  //checking
   if (!sessionData || !sessionData.imagePaths || !sessionData.screenshotPaths || !sessionData.modelResponse) {
     return <p>No data found for this session.</p>;
   }
