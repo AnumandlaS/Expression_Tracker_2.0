@@ -76,6 +76,25 @@ const Game = () => {
     };
   }, []);
 
+  const speak = (text) => {
+    if ("speechSynthesis" in window) {
+      const synth = window.speechSynthesis;
+      const utterance = new SpeechSynthesisUtterance(text);
+
+      // Ensure speech synthesis is active before speaking
+      if (synth.speaking) {
+        synth.cancel(); // Stop any ongoing speech to avoid overlaps
+      }
+
+      // Speak after a short delay to handle any issues with speech initiation
+      setTimeout(() => {
+        synth.speak(utterance);
+      }, 100);
+    } else {
+      console.warn("Speech synthesis not supported in this browser.");
+    }
+  };
+
   const startCapture = () => {
     console.log("Startcapture function called ");
     setShuffledQuestions(shuffledQuestions.sort(() => Math.random() - 0.5));
@@ -127,8 +146,10 @@ const Game = () => {
     if (correct) {
       setScore((prevScore) => prevScore + 1);
       document.body.classList.add("correct");
+      speak("Correct!");
     } else {
       document.body.classList.add("wrong");
+      speak("Wrong!");
     }
 
     setTimeout(() => {
