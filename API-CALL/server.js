@@ -6,6 +6,7 @@ const connectToDB = require('./db_connection');  // Import the db connection
 const Session = require('./schema');  // Import the session schema
 const cors = require('cors');
 const fs = require('fs');
+const axios = require('axios');
 
 
 require('dotenv').config();  // Load environment variables
