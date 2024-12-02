@@ -1,27 +1,32 @@
 .login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
-  
-  input {
-    padding: 10px;
-    font-size: 18px;
-    margin-bottom: 20px;
-  }
-  
-  .btn {
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .btn:hover {
-    background-color: #0056b3;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+input {
+  padding: 10px;
+  position: relative;
+  font-size: 18px;
+  margin-bottom: 20px;
+  padding: 10px; /* Ensure enough padding for usability */
+  font-size: 16px; /* Make text readable */
+  border: 1px solid #ccc; /* Ensure it's not invisible */
+  width: 100%;
+  pointer-events: auto;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}

@@ -10,7 +10,7 @@ html, body {
 
 /* Full-screen background for Home and Game Pages */
 .full-background {
-  background-image: url('C:\Users\Govardhan\Desktop\expression___tracker\PROJECT\Frontend\frontend\src\assets\AnalysisBackground.png'); /* Use relative path */
+  background-image: url('C:\Users\anupa\expression\src\assets\backgrongImage.png'); /* Use relative path */
   opacity: 0.9;
   background-size: cover; /* Cover the entire area */
   background-position: center; /* Center the image */
@@ -40,7 +40,7 @@ html, body {
 }
 
 .analysis-background {
-  background-image: url('C:\Users\Govardhan\Desktop\expression___tracker\PROJECT\Frontend\frontend\src\assets\AnalysisBackground.png'); /* Replace with your image path */
+  background-image: url('C:\Users\anupa\expression\src\assets\backgrongImage.png'); /* Replace with your image path */
   opacity: 0.9;
   background-size: cover; /* Cover the entire area */
   background-position: center; /* Center the image */
@@ -64,7 +64,7 @@ body {
 
 /* Add this CSS rule */
 .login-background {
-  background-image: url('C:\Users\Govardhan\Desktop\expression___tracker\PROJECT\Frontend\frontend\src\assets\backgrongImage.png'); /* Replace with your image path */
+  background-image: url('C:\Users\anupa\expression\src\assets\backgrongImage.png'); /* Replace with your image path */
   opacity: 0.9 ;
   background-size: cover; /* Cover the entire container */
   background-position: center; /* Center the background image */
@@ -78,9 +78,9 @@ body {
 
 /* Example: Update the paths as needed */
 .full-background {
-  background-image: url('C:\Users\Govardhan\Desktop\expression___tracker\PROJECT\Frontend\frontend\src\assets\backgrongImage.png'); /* Ensure the path is correct */
+  background-image: url('C:\Users\anupa\expression\src\assets\backgrongImage.png'); /* Ensure the path is correct */
 }
 
 .analysis-background {
-  background-image: url('C:\Users\Govardhan\Desktop\expression___tracker\PROJECT\Frontend\frontend\src\assets\AnalysisBackground.png'); /* Ensure the path is correct */
+  background-image: url('C:\Users\anupa\expression\src\assets\backgrongImage.png'); /* Ensure the path is correct */
 }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/ManageChildAccounts.css";
-import {useLocation } from "react-router-dom";
+import {useLocation,useNavigate } from "react-router-dom";
+import Navbar from './Logout_bar';
 const ManageChildAccounts = () => {
 
   const username = localStorage.getItem("username");
@@ -10,6 +11,7 @@ const ManageChildAccounts = () => {
   const [newChild, setNewChild] = useState({ name: "", age: "", password: "" });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   // Fetch child accounts
   useEffect(() => {
@@ -48,10 +50,16 @@ const ManageChildAccounts = () => {
       setError("Failed to create child account.");
     }
   };
+  const handleLogout = () => {
+    console.log(`${username} logged out.`);
+    navigate("/", { state: { username } }); // Redirect to the home or login page
+  };
 
   // Render
   return (
+    
     <div className="manage-child-accounts">
+      <Navbar username={username} handleLogout={handleLogout} role="admin" />
       <div className="create-child-block">
         <h2>Create New Child Account</h2>
         <form className="create-child-form" onSubmit={handleCreateAccount}>
