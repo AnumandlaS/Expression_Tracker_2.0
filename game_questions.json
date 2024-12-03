@@ -1,0 +1,79 @@
+
+[{
+    "gameID":"game-1",
+    "name":"Quiz",
+    "questions":[
+        {
+          "question": "Guess the correct spelling",
+          "image": "images/baby.jpeg",
+          "answers": [
+            { "text": "baby", "correct": true },
+            { "text": "bady", "correct": false },
+            { "text": "dady", "correct": false },
+            { "text": "daby", "correct": false }
+          ]
+        },
+        {
+          "question": "Guess the spelling correctly",
+          "image": "images/cat.jpeg",
+          "answers": [
+            { "text": "cat", "correct": true },
+            { "text": "kat", "correct": false }
+          ]
+        },
+        {
+          "question": "Which of the two is correct ???",
+          "image": "images/q3.jpeg.jpg",
+          "answers": [
+            { "text": "A", "correct": true },
+            { "text": "B", "correct": false }
+          ]
+        },
+        {
+            "question": "What is the boy doing ???",
+            "image": "images/swimming.jpg",
+            "answers": [
+              { "text": "SWIMMING", "correct": true },
+              { "text": "SWIMMMING", "correct": false }
+            ]
+        },
+        {
+            "question": "Guess the spelling correctly",
+            "image": "images/hat.jpg",
+            "answers": [
+              { "text": "nat", "correct": false },
+              { "text": "hat", "correct": true }
+            ]
+          }]
+    },
+    {
+        "gameId":"game-2",
+        "name":"Letter Fill-in-Game",
+        "questions":[
+                        { 
+                "word": "App_e", 
+                "image": "images_2/apple.png", 
+                "correctLetter": "l", 
+                "options": ["s", "l", "k", "j"]
+            },
+            { 
+                "word": "_at", 
+                "image": "images_2/bat.avif", 
+                "correctLetter": "b", 
+                "options": ["d", "p", "b", "q"]
+            },
+            { 
+                "word": "Do_", 
+                "image": "images_2/dog.jpg", 
+                "correctLetter": "g", 
+                "options": ["g", "d", "b", "p"]
+            },
+            { 
+                "word": "_at", 
+                "image": "images_2/cat.jpeg", 
+                "correctLetter": "c", 
+                "options": ["k", "a", "c", "b"]
+            }
+        ]
+    }
+]
