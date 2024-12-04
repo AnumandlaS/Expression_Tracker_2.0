@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import "../styles/UpdatePassword.css";
 
 const username = localStorage.getItem("username");
@@ -10,11 +9,10 @@ if (!username) {
 const admin_email = username || "";
 
 const UpdatePassword = () => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+  const [objId, setObjId] = useState(null); // State to store Object ID
+  const [password, setPassword] = useState(""); // State to store new password
 
+  // Fetch Object ID
   useEffect(() => {
     const fetchObjID = async () => {
       try {
@@ -28,8 +26,7 @@ const UpdatePassword = () => {
           `${process.env.REACT_APP_BACKEND_URL}/auth/getObjectID/${admin_email}`
         );
         console.log("Object ID response:", response.data);
-        const objId = response.data.admin.id;
-        localStorage.setItem("adminId", objId); // Save adminId for later use
+        setObjId(response.data.admin.id); // Save Object ID in state
       } catch (err) {
         console.error("Failed to fetch object ID:", err.message);
       }
@@ -42,37 +39,31 @@ const UpdatePassword = () => {
     }
   }, [admin_email]);
 
+  // Handle form submission
   const handleUpdatePassword = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent form from refreshing the page
 
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+    if (!password) {
+      console.error("Password is required.");
       return;
     }
 
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters long.");
+    if (!objId) {
+      console.error("Object ID not found. Cannot update password.");
       return;
     }
-
-    setError(""); // Clear error if validation passes
 
     try {
-      const adminId = localStorage.getItem("adminId");
       const response = await axios.put(
-        `${process.env.REACT_APP_BACKEND_URL}/auth/updatePassword/${adminId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/auth/updatePassword/${objId}`,
         { password }
       );
-      console.log("Password updated successfully:", response.data);
+      console.log("Password update response:", response.data);
       alert("Password updated successfully!");
     } catch (err) {
       console.error("Failed to update password:", err.message);
-      setError("Failed to update password.");
+      alert("Error updating password.");
     }
-  };
-
-  const handleAnalysisClick = () => {
-    navigate("/analysis", { state: { username } });
   };
 
   return (
@@ -90,26 +81,10 @@ const UpdatePassword = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="confirmPassword">Confirm Password:</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              placeholder="Confirm new password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </div>
-          {error && <p className="error">{error}</p>}
-          <button type="submit" className="create-btn1">
+          <button type="submit" className="create-btn">
             Change Password
           </button>
         </form>
-        <div className="home-container">
-          <button className="home-button" onClick={handleAnalysisClick}>
-            Home
-          </button>
-        </div>
       </div>
     </div>
   );
