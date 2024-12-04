@@ -14,6 +14,9 @@ const ExpressionAnalysis = () => {
 
   const username = localStorage.getItem("username");
   console.log("Username : "+username);
+  const userNameOnly = username ? username.split('@')[0] : "User"; 
+  console.log("Username : "+username);
+  const userNameWithoutNumbers = userNameOnly.replace(/[0-9]/g, '');
   useEffect(() => {
     const fetchSessionData = async () => {
       try {
@@ -90,7 +93,7 @@ const ExpressionAnalysis = () => {
 
   return (
     <div className="container-fluid">
-      <Navbar username={username} handleLogout={handleLogout} role="admin" />
+      <Navbar username={userNameWithoutNumbers} handleLogout={handleLogout} role="admin" />
       <div className="image-strip-container">
         <h1>DETAILED ANALYSIS</h1>
 

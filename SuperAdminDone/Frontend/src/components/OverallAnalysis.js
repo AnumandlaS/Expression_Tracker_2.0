@@ -14,6 +14,9 @@ const OverallAnalysis = () => {
   // console.log(username); // Log the username to check
   const username = localStorage.getItem("username");
   console.log("Username : "+username);
+  const userNameOnly = username ? username.split('@')[0] : "User"; 
+  console.log("Username : "+username);
+  const userNameWithoutNumbers = userNameOnly.replace(/[0-9]/g, '');
   const handleLogout = () => {
     console.log(`${username} logged out.`);
     navigate("/"); // Redirect to the home or login page
@@ -152,7 +155,7 @@ const OverallAnalysis = () => {
   console.log(username);
   return (
     <div>
-      <Navbar username={username} handleLogout={handleLogout} role="admin" />
+      <Navbar username={userNameWithoutNumbers} handleLogout={handleLogout} role="admin" />
       <div className=" scrollable-table-container">
         <h1 className="text-center">Overall Expression Analysis</h1>
         <div className="row my-4">

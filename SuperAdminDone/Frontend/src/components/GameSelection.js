@@ -20,7 +20,7 @@ const GameSelection = () => {
       id: 1,
       title: "CRACK-THE-QUIZ",
       description: "Answer simple quiz questions",
-      image: "images_2/quiz-game.png",
+      image: "images/q3.jpeg.jpg",
       onClick: () =>
         navigate("/game", { state: { username, gameName: "CRACK-THE-QUIZ" } }),
     },
@@ -28,7 +28,7 @@ const GameSelection = () => {
       id: 2,
       title: "FIND-MISSING-LETTERS",
       description: "Drag the missing letter to the letter",
-      image: "images_2/missing_letters.png",
+      image: "images_2/apple.png",
       onClick: () =>
         navigate("/game_2", {
           state: { username, gameName: "FIND-MISSING-LETTERS" },

@@ -58,6 +58,16 @@ select {
   z-index: 20;
 }
 
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px; /* Adjust size if needed */
+}
+
 .signin-signup {
   position: absolute;
   top: 50%;

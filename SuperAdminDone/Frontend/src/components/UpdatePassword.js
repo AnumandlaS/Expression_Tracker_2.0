@@ -11,6 +11,7 @@ const admin_email = username || "";
 const UpdatePassword = () => {
   const [objId, setObjId] = useState(null); // State to store Object ID
   const [password, setPassword] = useState(""); // State to store new password
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   // Fetch Object ID
   useEffect(() => {
@@ -73,13 +74,28 @@ const UpdatePassword = () => {
         <form className="create-child-form" onSubmit={handleUpdatePassword}>
           <div className="form-group">
             <label htmlFor="password">New Password:</label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Enter new password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                placeholder="Enter new password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ paddingRight: "30px", flex: 1 }}
+              />
+              <span
+                onClick={() => setShowPassword(!showPassword)}
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  cursor: "pointer",
+                  fontSize: "1.2em",
+                  userSelect: "none",
+                }}
+              >
+                {showPassword ? "👁️" : "👁️‍🗨️"}
+              </span>
+            </div>
           </div>
           <button type="submit" className="create-btn">
             Change Password

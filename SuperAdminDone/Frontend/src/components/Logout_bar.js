@@ -118,9 +118,6 @@ const NavBar = ({ username, profilePicture, handleLogout, role }) => {
                                     </small>
                                 </div>
                                 <div className="dropdown-divider"></div>
-                                <a className="dropdown-item" href="/profile">
-                                    Profile
-                                </a>
                                 {role === "admin" && (
                                
 
@@ -170,7 +167,7 @@ const NavBar = ({ username, profilePicture, handleLogout, role }) => {
 // Define PropTypes for validation
 NavBar.propTypes = {
     username: PropTypes.string,
-    profilePicture: PropTypes.string, // Optional: URL of the user's profile picture
+     // Optional: URL of the user's profile picture
     handleLogout: PropTypes.func.isRequired,
     role: PropTypes.oneOf(["admin", "child"]).isRequired, // Role should be either "admin" or "child"
 };

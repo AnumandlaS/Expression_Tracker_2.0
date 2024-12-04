@@ -152,7 +152,9 @@ const Analysis = () => {
   
   const location = useLocation();
   const username = localStorage.getItem("username");
+  const userNameOnly = username ? username.split('@')[0] : "User"; 
   console.log("Username : "+username);
+  const userNameWithoutNumbers = userNameOnly.replace(/[0-9]/g, '');
   const handleLogout = () => {
     console.log(`${username} logged out.`);
     navigate('/',{state:{username}}); // Redirect to the home or login page
@@ -172,7 +174,7 @@ const Analysis = () => {
       
         {/* Top Navbar */}
         
-        <Navbar username={username} handleLogout={handleLogout} role="admin" />
+        <Navbar username={userNameWithoutNumbers} handleLogout={handleLogout} role="admin" />
 
     <div className="scrollable-table-container">
       <h1 className="text-center">
