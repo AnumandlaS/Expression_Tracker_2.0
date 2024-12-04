@@ -1,0 +1,13 @@
+npm install jsonwebtoken
+npm install nodemailer
+if error:-please check email password in .env
+
+creating the nodeail-test account
+1.in google type google account
+2.go to security
+3.screach for 2-step-verification only
+4.turn on 2-step verification
+5.screach for app password
+6.in create app type nodemail-test
+7.copy the 12 characters code that is your password
+8.edit email id and password in .env in backend 
