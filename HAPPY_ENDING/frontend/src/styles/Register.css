@@ -63,8 +63,10 @@ body {
 }
 
 .btn:hover {
-  background-color: #e6cd8e;
-}
+    background-color: #2874b9; /* Change to a darker shade or any color you prefer */
+    transform: scale(1.05); /* Slightly increase the button size on hover for a cool effect */
+  };
+
 
 .text-center {
   text-align: center;
