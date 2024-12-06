@@ -79,9 +79,9 @@ const UpdatePassword = () => {
   // Define userNameWithoutNumbers and handleLogout
   const userNameWithoutNumbers = username.replace(/\d/g, ''); // Example of removing numbers from username
   const handleLogout = () => {
-    // Implement logout functionality
+    
     localStorage.removeItem("username");
-    // Redirect or update state as needed
+    
   };
 
   return (
