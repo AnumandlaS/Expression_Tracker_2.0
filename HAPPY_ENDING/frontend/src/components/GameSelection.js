@@ -31,7 +31,7 @@ const GameSelection = () => {
       image: "images_2/drag.png",
       onClick: () =>
         navigate("/game_2", {
-          state: { username, gameName: "FIND-MISSING-LETTERS" },
+          state: { username, gameName: "DRAG-&-SPELL" },
         }),
     },
   ];
