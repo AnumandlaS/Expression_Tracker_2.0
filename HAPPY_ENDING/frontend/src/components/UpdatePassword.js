@@ -5,13 +5,13 @@ import Navbar from './Logout_bar';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-const username = localStorage.getItem("username");
-if (!username) {
-  console.error("Username not found in localStorage.");
-}
-const admin_email = username || "";
-
 const UpdatePassword = () => {
+  const username = localStorage.getItem("username");
+  if (!username) {
+    console.error("Username not found in localStorage.");
+  }
+  const admin_email = username || ""; // Define admin_email inside the component
+
   const [objId, setObjId] = useState(null); // State to store Object ID
   const [password, setPassword] = useState(""); // State to store new password
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
@@ -77,11 +77,10 @@ const UpdatePassword = () => {
   };
 
   // Define userNameWithoutNumbers and handleLogout
-  const userNameWithoutNumbers = username.replace(/\d/g, ''); // Example of removing numbers from username
+  const userNameOnly = username ? username.split('@')[0] : "User"; 
+  const userNameWithoutNumbers = userNameOnly.replace(/[0-9]/g, ''); // Example of removing numbers from username
   const handleLogout = () => {
-    
     localStorage.removeItem("username");
-    
   };
 
   return (
