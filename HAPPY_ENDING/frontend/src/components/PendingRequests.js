@@ -13,7 +13,12 @@ const PendingRequests = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/auth/getAllStatus`
         );
-        setAdmins(response.data.admin_info || []);
+        const filteredAdmins = response.data.admin_info?.filter(
+          (admin) => admin.admin_email !== "superadmin@example.com"
+        ) || [];
+  
+        setAdmins(filteredAdmins || []);
+        
       } catch (error) {
         console.log("Failed to fetch details: ", error);
       }

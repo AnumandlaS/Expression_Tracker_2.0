@@ -151,6 +151,7 @@ const OverallAnalysis = () => {
   const handleAnalysisClick = () => {
     navigate("/analysis", { state: { username } }); // Navigate to the analysis page if needed
   };
+  
 
   console.log(username);
   return (

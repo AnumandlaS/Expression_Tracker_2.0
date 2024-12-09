@@ -35,7 +35,15 @@ select {
 /* Optional: Style the scrollbar inside the container */
 .container::-webkit-scrollbar {
   width: 8px; /* Set the width of the scrollbar */
+}.text-danger {
+  color: red !important;
 }
+
+.text-success {
+  color: green !important;
+}
+
+
 
 .container::-webkit-scrollbar-thumb {
   background-color: #888; /* Set the color of the scrollbar thumb */
@@ -144,6 +152,7 @@ form.sign-in-form {
   width: 100%; /* Ensure the container takes the full width */
   display: block;
 }
+
 
 .input-field input::placeholder {
   color: #aaa;
@@ -536,17 +545,7 @@ form.sign-in-form {
     top: 70%;
   }
    }
-   .success-message {
-    color: green; /* Set text color to green for success */
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  .error-message {
-    color: red; /* Set text color to red for errors */
-    font-weight: bold;
-    margin-top: 10px;
-  }
+   
   .highlight-link {
     color: rgba(4, 4, 198, 0.755); /* Change to your desired color */
     text-decoration: underline; /* Underline to mimic a link */

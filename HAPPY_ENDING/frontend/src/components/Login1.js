@@ -39,6 +39,8 @@ const LoginAndRegister = () => {
 
       const { message, token, user, redirectTo } = response.data;
       setMessage(message);
+      setError("");
+
 
       if (token) {
         localStorage.setItem("username", username);
@@ -48,12 +50,16 @@ const LoginAndRegister = () => {
       }
     } catch (error) {
       setError("Login failed. Please try again.");
+      setMessage("");
     }
   };
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
+      setMessage("");
+      setError("");
+
       const { admin_name, phone_number, admin_email, admin_profession } = formData;
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/register`, {
         admin_name,
@@ -64,13 +70,14 @@ const LoginAndRegister = () => {
 
       if (response.data.success) {
         setMessage(response.data.message);
-        setError("");
+        setError(""); 
       } else {
         setError(response.data.message);
-        setMessage("");
+        
       }
     } catch (error) {
       setError("Registration failed. Please try again.");
+      setMessage("");
     }
   };
 
@@ -124,8 +131,11 @@ const LoginAndRegister = () => {
           {isSignUp && (
             <form onSubmit={handleRegisterSubmit} className="sign-up-form">
               <h2 className="title">Register</h2>
-              {message && <p className="success-message">{message}</p>}
-              {error && <p className="error-message">{error}</p>}
+              {/* Render messages */}
+{/* Render messages with inline styles */}
+<div>
+        {error || message}
+      </div>
 
               <div className="input-field">
                 <input
