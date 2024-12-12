@@ -59,7 +59,7 @@ router.post("/sessions/analyze/:sessionId", async (req, res) => {
     }
 
     // Check if analysis results already exist in the database
-    if (session.modelResponse && session.modelResponse.length > 0) {
+    if (session.modelResponse && session.modelResponse.length > 0 && (session.modelResponse.length === session.imagePaths.length)) {
       // If analysis results are already present, skip sending images to the model
       console.log("Analysis already exists for this session");
       return res.status(200).json({
